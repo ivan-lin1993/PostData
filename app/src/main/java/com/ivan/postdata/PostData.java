@@ -115,7 +115,7 @@ public class PostData extends AsyncTask<String,Void,Void> {
         return null;
     }
 
-    static public void addParms(String param, String key, String value) {
+    public void addParms(String key, String value) {
         String t_value = null;
         try {
             t_value = URLEncoder.encode(value, "UTF-8");
@@ -128,7 +128,7 @@ public class PostData extends AsyncTask<String,Void,Void> {
         param += (key + "=" + t_value);
     }
 
-    static public void addParms(String param,String key, int value) {
+    public void addParms(String key, int value) {
         int t_value;
         t_value = value;
         if (param != "") {

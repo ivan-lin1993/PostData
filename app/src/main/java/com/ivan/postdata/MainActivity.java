@@ -13,7 +13,7 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     private Context thisContext;
-    private PostData postData;
+    private PostData postData=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 Clear();
             }
         });
+        initialPostData();
     }
     public void AddParm(){
         EditText value_ed=(EditText)findViewById(R.id.value);
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         TextView param=(TextView)findViewById(R.id.param);
-        PostData.addParms(postData.getParam(),key_ed.getText().toString(),value_ed.getText().toString());
+        postData.addParms(key_ed.getText().toString(),value_ed.getText().toString());
         value_ed.setText("");
         key_ed.setText("");
         param.setText(postData.getParam());
@@ -62,16 +63,21 @@ public class MainActivity extends AppCompatActivity {
         result.setText("");
         postData.ClearParam();
     }
-    public void Send(){
+    public void Send() {
+        TextView param=(TextView)findViewById(R.id.param);
+        TextView url = (TextView) findViewById(R.id.url);
+        param.setText("");
+        postData.execute(url.getText().toString());
+    }
+    private void initialPostData(){
         postData=new PostData(thisContext, "Loading...", new PostData.AsyncResponse() {
             @Override
             public void processFinish(String output) {
                 TextView result=(TextView)findViewById(R.id.result);
                 result.setText(output);
+                initialPostData();
             }
         });
-        TextView url=(TextView)findViewById(R.id.url);
-        postData.execute(url.getText().toString());
     }
 
 
